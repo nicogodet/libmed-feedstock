@@ -15,25 +15,26 @@ source:
     #git_rev: 8a0b0d21d4bac79772797b0a800cf4d5bf77bc32    
 
 build:
-  number: 0
-  skip: true  # [py2k or osx or win]
+  number: 1
+  skip: true  # [py2k or osx]
 
 requirements:
   build:
       - {{ compiler('fortran') }}
       - {{ compiler('c') }}
       - {{ compiler('cxx') }}
-      - swig
+      - swig >=4.0.2
   host:
-      - autoconf  # [linux]
-      - make  # [linux]
+#      - autoconf  # [linux]
+      - make  # [not win]
       - ninja  # [win]
-      - cmake  # [win]  
+      - cmake
       - hdf5 >=1.10.2,<1.11
-      - python
+      - python {{ python }}
   run:
       - {{ pin_compatible('hdf5', min_pin='x.x', max_pin='x.x') }}
-      - python
+      - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
+      - python {{ python }}
 
 test:
   imports:
